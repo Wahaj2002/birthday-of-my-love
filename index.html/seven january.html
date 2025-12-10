@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aapka Khaas Surprise!</title>
+    <style>
+        /* General Styling (Same) */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fce4ec; 
+            display: flex;
+            flex-direction: column; 
+            justify-content: flex-start; 
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px 0; 
+            text-align: center;
+            overflow-x: hidden; 
+            overflow-y: auto; 
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px; 
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 500px;
+            z-index: 10;
+            margin-bottom: 20px; 
+        }
+
+        /* Countdown & Button Styling (Same) */
+        #countdown {
+            font-size: 2.5em;
+            color: #d81b60;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        #countdown h2 {
+            font-size: 1.2em;
+            color: #4c4c4c;
+            margin-bottom: 15px;
+        }
+        
+        /* Munazzah Name Box Styling (Same) */
+        #munazzahNameBox {
+            display: none; 
+            padding: 10px; 
+            border: 3px solid #ff5252;
+            border-radius: 10px;
+            background-color: #fff; 
+            color: #d81b60;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        #munazzahNameBox h1 {
+            font-size: 1.5em; 
+            margin: 0; 
+        }
+
+        #revealButton {
+            background-color: #ff5252;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            display: none;
+        }
+
+        #revealButton:hover {
+            background-color: #e04040;
+            transform: translateY(-2px);
+        }
+
+        /* Shairi Box Styling (Same) */
+        #shairiBox {
+            display: none; 
+            padding: 15px; 
+            border: 3px solid #ff5252;
+            border-radius: 10px;
+            background-color: #ffe0b2; 
+            text-align: center;
+            font-style: italic;
+            font-size: 1.0em; 
+            color: #5d4037;
+        }
+
+        /* Surprise Message Styling (Same) */
+        #surpriseMessage {
+            display: none;
+            padding: 15px; 
+            border: 3px solid #d81b60;
+            border-radius: 10px;
+            background-color: #fff8e1;
+            text-align: left;
+        }
+
+        #surpriseMessage h1 {
+            color: #d81b60;
+            font-size: 2.2em; 
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        #surpriseMessage p {
+            color: #4c4c4c;
+            font-size: 1.0em; 
+            line-height: 1.5; 
+            margin-bottom: 10px;
+        }
+        
+        /* 💖 HEARTBEAT ANIMATION 💖 (Same) */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            20% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.1); }
+            80% { transform: scale(1); }
+            100% { transform: scale(1); }
+        }
+
+        .heart-animated {
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+            color: #ff5252;
+        }
+
+        /* 🌸 PETAL / CHARACTER ANIMATION 🌸 (Same) */
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotateZ(0deg); opacity: 0.8; }
+            100% { transform: translateY(105vh) rotateZ(360deg); opacity: 0; }
+        }
+        
+        .falling-item {
+            position: absolute;
+            font-size: 1.5em; 
+            pointer-events: none;
+            animation: fall linear infinite;
+            z-index: 5; 
+        }
+        
+        .petal {
+            width: 15px;
+            height: 15px;
+            background-color: #ffb6c1; 
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+
+        .falling-item:nth-child(2n) { animation-duration: 10s; animation-delay: 0s; }
+        .falling-item:nth-child(3n) { animation-duration: 8s; animation-delay: 2s; }
+        .falling-item:nth-child(5n) { animation-duration: 12s; animation-delay: 5s; }
+        .falling-item:nth-child(7n) { animation-duration: 7s; animation-delay: 1s; }
+        .falling-item:nth-child(11n) { animation-duration: 15s; animation-delay: 3s; }
+        .falling-item:nth-child(13n) { animation-duration: 9s; animation-delay: 4s; }
+        .falling-item:nth-child(17n) { animation-duration: 13s; animation-delay: 6s; }
+    </style>
+</head>
+<body>
+
+<audio id="bdayMusic" loop>
+  <source src="happy-birthday-festive-music-414654.mp3" type="audio/mp3"> 
+  Your browser does not support the audio element.
+</audio>
+
+
+<div class="falling-item petal" style="left: 3%; animation-duration: 11s; animation-delay: 0.5s;"></div>
+<div class="falling-item petal" style="left: 8%; animation-duration: 9s; animation-delay: 3s;"></div>
+<div class="falling-item petal" style="left: 17%; animation-duration: 14s; animation-delay: 1s;"></div>
+<div class="falling-item petal" style="left: 28%; animation-duration: 8s; animation-delay: 5s;"></div>
+<div class="falling-item petal" style="left: 42%; animation-duration: 10s; animation-delay: 2s;"></div>
+<div class="falling-item petal" style="left: 58%; animation-duration: 13s; animation-delay: 4s;"></div>
+<div class="falling-item petal" style="left: 73%; animation-duration: 7s; animation-delay: 0s;"></div>
+<div class="falling-item petal" style="left: 82%; animation-duration: 11s; animation-delay: 6s;"></div>
+<div class="falling-item petal" style="left: 92%; animation-duration: 9s; animation-delay: 3.5s;"></div>
+<div class="falling-item petal" style="left: 48%; animation-duration: 15s; animation-delay: 1.5s;"></div>
+
+<div class="falling-item" style="left: 15%; top: 0; animation-duration: 10s; animation-delay: 0s;">🐼</div> 
+<div class="falling-item" style="left: 35%; top: 0; animation-duration: 8s; animation-delay: 2s;">😺</div> 
+<div class="falling-item" style="left: 55%; top: 0; animation-duration: 12s; animation-delay: 5s;">🤠</div> 
+<div class="falling-item" style="left: 75%; top: 0; animation-duration: 7s; animation-delay: 1s;">🚀</div> 
+<div class="falling-item" style="left: 90%; top: 0; animation-duration: 15s; animation-delay: 3s;">💖</div> 
+<div class="falling-item" style="left: 2%; top: 0; animation-duration: 9s; animation-delay: 4s;">🦄</div> 
+<div class="falling-item" style="left: 98%; top: 0; animation-duration: 13s; animation-delay: 6s;">🎈</div> 
+<div class="falling-item" style="left: 25%; top: 0; animation-duration: 6s; animation-delay: 0s;">🐼</div>
+<div class="falling-item" style="left: 70%; top: 0; animation-duration: 10s; animation-delay: 2s;">😺</div>
+
+
+<div class="container" id="initialContainer"> <div id="countdown">
+        <h2>Aapka Surprise Iss Waqt Khulega...</h2>
+        <span id="time">Loading...</span>
+    </div>
+
+    <button id="revealButton" onclick="showSurprise()">
+        **Yeh Raaz Kholiye!** 🎁
+    </button>
+</div>
+
+<div id="munazzahNameBox" class="container">
+    <h1 class="name-heading heart-animated">Meri Piyari Munazzah! 💖</h1>
+</div>
+
+<div id="shairiBox" class="container">
+    <p>**Kuchh Nazuk Alfaaz Aapke Naam...**</p>
+    <hr style="border-top: 1px solid #ff5252;">
+    
+    <p>
+        chāñd sitāre phuul parinde shaam saverā ek taraf<br>
+        saarī duniyā us kā charba us kā chehrā ek taraf <span class="heart-animated">❤️</span>
+    </p>
+    <p>
+        vo laḌ kar bhī so jaa.e to us kā māthā chūmūñ maiñ<br>
+        us se mohabbat ek taraf hai us se jhagḌā ek taraf <span class="heart-animated">🥰</span>
+    </p>
+    <p>
+        jis shai par vo uñglī rakh de us ko vo dilvānī hai<br>
+        us kī ḳhushiyāñ sab se avval sastā mahñgā ek taraf
+    </p>
+    <p>
+        saarī duniyā jo bhī bole sab kuchh shor-sharāba hai<br>
+        sab kā kahnā ek taraf hai us kā kahnā ek taraf
+    </p>
+    <p>
+        zaḳhmoñ par marham lagvāo lekin us ke hāthoñ se<br>
+        chāra-sāzī ek taraf hai us kā chhūnā ek taraf <span class="heart-animated">💋</span>
+    </p>
+    
+</div>
+
+<div id="surpriseMessage" class="container">
+    
+    <h1 class="heart-animated">
+        Happy birthday to you <br>
+        Happy birthday to you <br>
+        Happy birthday Happy birthday .... <br>
+        Happy birthday to you <span class="heart-animated">❤️</span><span class="heart-animated">♥</span>
+    </h1>
+    
+    <p style="text-align: center;">**Meri Piyari Chanda !<span class="heart-animated">❤</span>!**</p>
+    
+    <p>
+        Today I get to wish someone who has the
+        most beautiful soul of anybody I know a
+        very happy birthday<span class="heart-animated">🎉🎂</span>
+    </p>
+
+    <p>
+        My dear Jaaan<span class="heart-animated">💞</span> , you are the single most
+        incredible person I know and I am so lucky
+        and grateful to have you in my life. Nobody
+        even comes close to how kind, thoughtful
+        and caring you are.<span class="heart-animated">🙈🥰</span>
+    </p>
+    
+    <p>
+        You could’ve chosen anybody to share
+        your life with and I am so thankful that
+        you chose me<span class="heart-animated">🫂💝</span>
+    </p>
+
+    <p>
+        Wishing you the very happiest birthday
+        with all my love and lots of big kisses<span class="heart-animated">💋💋💋💞🙈</span>
+    </p>
+    
+    <p>
+        I know that I will certainly do everything
+        I can to make your special day as
+        incredible as it can be, because you
+        mean the world to me<span class="heart-animated">👩‍❤‍👨🌎</span>
+    </p>
+    
+    <p>
+        You fill me with so much happiness
+        and I am so lucky to have such a
+        wonderful partner in my life who
+        shares the same quirky sense of
+        humour as me <span class="heart-animated">🤭🤭🤭🤭💝💝💝💝</span>
+    </p>
+    
+    <p>
+        How is it that you’re yet another year
+        older, but you look younger than ever<span class="heart-animated">😂😂😂🤭🤭🤭</span>
+    </p>
+
+    <p>
+        I know that I tell you this all the time,
+        but you are the most beautiful person
+        in the world to me. Waking up next to
+        you and seeing your beautiful smile is
+        the very best start to my day<span class="heart-animated">🥺💝🌎👩‍❤‍👨🙈💞💋</span>
+    </p>
+
+    <p>
+        I’ll love you until the end of time<span class="heart-animated">🫂👩‍❤‍👨🙈💞🌎</span>
+    </p>
+
+    <p>
+        Lots of love, tight hugs, and gigantic kisses
+        for you today, my jaaaaan <span class="heart-animated">💋💋💋💋💋🫂👩‍❤‍👨👩‍❤‍👨🥰💞💞🙈🙈🌎🌎🌎🌎🌎🌎🌎🌎🌎</span>
+    </p>
+
+    <p style="text-align: center;">
+        Hamesha abad Raho hamesha Sath rehna mere <span class="heart-animated">🫂🥰🙈🌎💞</span>.....
+    </p>
+
+    <p style="text-align: center;">
+        Or bohat sara I love you jaaan <span class="heart-animated">🥰🙈💞🌎🌎👩‍❤‍👨💋💝🥰</span>
+    </p>
+
+</div>
+
+<script>
+    // ** FINAL BIRTHDAY DATE SETTING: 7 January 2026, 12:00:00 AM (Midnight) **
+    // Note: 6 Jan, 23:59:59 ke baad 7 Jan, 00:00:00 shuru ho jayega.
+    const birthdayDate = new Date("2026-01-07T00:00:00").getTime();
+    
+    const initialContainer = document.getElementById('initialContainer');
+    const countdownElement = document.getElementById('countdown');
+    const timeElement = document.getElementById('time');
+    const revealButton = document.getElementById('revealButton');
+    const munazzahNameBox = document.getElementById('munazzahNameBox'); 
+    const shairiBox = document.getElementById('shairiBox'); 
+    const surpriseMessage = document.getElementById('surpriseMessage');
+    const musicElement = document.getElementById('bdayMusic');
+
+    // Countdown function
+    const updateCountdown = setInterval(function() {
+        const now = new Date().getTime();
+        const distance = birthdayDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result
+        timeElement.innerHTML = days + " Din : " + hours + " Ghante : "
+        + minutes + " Minute : " + seconds + " Second";
+
+        // If the countdown is over
+        if (distance < 0) {
+            clearInterval(updateCountdown);
+            countdownElement.style.display = 'none'; // Timer hide
+            revealButton.style.display = 'block'; // Button show
+            timeElement.innerHTML = "SURPRISE!"
+        }
+    }, 1000);
+
+    // Function to show the surprise message when button is clicked
+    function showSurprise() {
+        initialContainer.style.display = 'none'; // Hide the container with the button and timer
+        munazzahNameBox.style.display = 'block'; // Munazzah Name Box dikhao (New First Box)
+        shairiBox.style.display = 'block'; // Shairi Box dikhao
+        surpriseMessage.style.display = 'block'; // Message dikhao
+        
+        // Music starts playing here!
+        musicElement.play().catch(error => {
+             console.error("Music play failed:", error);
+        });
+    }
+</script>
+
+</body>
+</html>
